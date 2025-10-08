@@ -7,25 +7,32 @@ SHEET_NAME = "Sheet1"  # đổi nếu tên sheet khác
 
 # === Đọc dữ liệu từ Google Sheets ===
 url = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet={SHEET_NAME}"
-df = pd.read_csv(url, skiprows=2)  # Bỏ qua 2 dòng đầu (hàng 1-2 không phải tiêu đề)
+df = pd.read_csv(url, skiprows=2)  # Bỏ qua 2 dòng đầu (vì tiêu đề thật bắt đầu từ hàng 3)
+
+# Chuẩn hóa tên cột (loại bỏ khoảng trắng và ký tự ẩn)
+df.columns = df.columns.str.strip().str.replace("\ufeff", "", regex=True)
 
 # === Thiết lập giao diện ===
 st.set_page_config(page_title="Tra cứu tài sản", page_icon="📦", layout="centered")
-
 st.title("📦 Tra cứu thông tin tài sản")
 
 # --- Lấy tham số URL ---
-query_params = st.experimental_get_query_params()
-so_the = query_params.get("so_the", [""])[0].strip().upper()
+query_params = st.query_params
+so_the = query_params.get("so_the", [""])[0].strip().upper() if "so_the" in query_params else ""
 
-# --- Chuẩn hóa dữ liệu ---
-df.columns = df.columns.str.strip()  # Xóa khoảng trắng ở tên cột
+# --- Kiểm tra dữ liệu ---
 if "Số thẻ" not in df.columns:
-    st.error("❌ Không tìm thấy cột 'Số thẻ' trong dữ liệu Google Sheets.")
+    st.error(f"❌ Không tìm thấy cột 'Số thẻ' trong dữ liệu. Các cột hiện có: {list(df.columns)}")
 else:
-    df["Số thẻ"] = df["Số thẻ"].astype(str).str.strip().str.upper().str.replace(".0", "", regex=False)
+    # Chuẩn hóa cột Số thẻ
+    df["Số thẻ"] = (
+        df["Số thẻ"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        .str.replace(".0", "", regex=False)
+    )
 
-    # --- Xử lý truy vấn ---
     if so_the:
         st.subheader(f"Mã số thẻ: {so_the}")
         ts = df[df["Số thẻ"] == so_the]
