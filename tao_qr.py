@@ -30,7 +30,12 @@ so_the = query_params.get("so_the", [""])[0].strip()
 # Nếu có mã số thẻ
 if so_the:
     st.subheader(f"Mã số thẻ: {so_the}")
-    ts = df[df["Số thẻ"].astype(str).str.strip().eq(so_the)]
+    # Chuẩn hóa dữ liệu để tránh lỗi khi có khoảng trắng hoặc số dạng B02.0
+    df["Số thẻ"] = df["Số thẻ"].astype(str).str.strip().str.upper().str.replace(".0", "", regex=False)
+    so_the = so_the.upper().strip()
+
+    # Lọc đúng dòng
+    ts = df[df["Số thẻ"] == so_the]
 
     if not ts.empty:
         record = ts.iloc[0]
