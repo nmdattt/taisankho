@@ -25,11 +25,11 @@ st.title("📦 Tra cứu thông tin tài sản")
 
 # Lấy tham số từ URL (so_the)
 query_params = st.query_params  # không có ngoặc
-so_the = query_params.get("so_the", [""])[0].strip()
+so_the = query_params.get("Số thẻ", [""])[0].strip()
 
 # Nếu có mã số thẻ
 if so_the:
-    st.subheader(f"Mã số thẻ: {so_the}")
+    st.subheader(f"Mã số thẻ: {Số thẻ}")
     # Chuẩn hóa dữ liệu để tránh lỗi khi có khoảng trắng hoặc số dạng B02.0
     df["Số thẻ"] = df["Số thẻ"].astype(str).str.strip().str.upper().str.replace(".0", "", regex=False)
     so_the = so_the.upper().strip()
