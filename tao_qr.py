@@ -13,10 +13,6 @@ df = pd.read_csv(url, skiprows=0)  # Bỏ qua 2 dòng đầu (vì tiêu đề th
 # Chuẩn hóa tên cột (loại bỏ khoảng trắng và ký tự ẩn)
 df.columns = df.columns.str.strip().str.replace("\ufeff", "", regex=True)
 
-# === Thiết lập giao diện ===
-st.set_page_config(page_title="Theo dõi tài sản cố định Đồng Tháp cũ", layout="centered")
-st.title("Theo dõi tài sản cố định Đồng Tháp cũ")
-
 # --- Lấy tham số URL ---
 query_params = st.query_params
 so_the = query_params.get("so_the", "").strip().upper()
