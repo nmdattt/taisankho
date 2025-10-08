@@ -24,7 +24,7 @@ st.set_page_config(page_title="Tra cứu tài sản", page_icon="📦", layout="
 st.title("📦 Tra cứu thông tin tài sản")
 
 # Lấy tham số từ URL (so_the)
-query_params = st.query_params()
+query_params = st.experimental_get_query_params()
 so_the = query_params.get("so_the", [""])[0].strip()
 
 # Nếu có mã số thẻ
