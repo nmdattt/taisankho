@@ -8,6 +8,8 @@ SHEET_NAME = "Sheet1"  # đổi nếu tên sheet khác
 # === Đọc dữ liệu từ Google Sheets ===
 url = f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet={SHEET_NAME}"
 df = pd.read_csv(url, skiprows=0)  # Bỏ qua 2 dòng đầu (vì tiêu đề thật bắt đầu từ hàng 3)
+st.write(df.head())
+
 
 # Chuẩn hóa tên cột (loại bỏ khoảng trắng và ký tự ẩn)
 df.columns = df.columns.str.strip().str.replace("\ufeff", "", regex=True)
