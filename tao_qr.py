@@ -20,7 +20,7 @@ st.title("📦 Tra cứu thông tin tài sản")
 
 # --- Lấy tham số URL ---
 query_params = st.query_params
-so_the = query_params.get("so_the", [""])[0].strip().upper() if "so_the" in query_params else ""
+so_the = query_params.get("so_the", "").strip().upper()
 
 # --- Kiểm tra dữ liệu ---
 if "Số thẻ" not in df.columns:
