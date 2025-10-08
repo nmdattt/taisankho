@@ -14,8 +14,8 @@ df = pd.read_csv(url, skiprows=0)  # Bỏ qua 2 dòng đầu (vì tiêu đề th
 df.columns = df.columns.str.strip().str.replace("\ufeff", "", regex=True)
 
 # === Thiết lập giao diện ===
-st.set_page_config(page_title="Tra cứu tài sản", page_icon="📦", layout="centered")
-st.title("📦 Tra cứu thông tin tài sản")
+st.set_page_config(page_title="Theo dõi tài sản cố định Đồng Tháp cũ", layout="centered")
+st.title("Theo dõi tài sản cố định Đồng Tháp cũ")
 
 # --- Lấy tham số URL ---
 query_params = st.query_params
@@ -35,7 +35,7 @@ else:
     )
 
     if so_the:
-        st.subheader(f"Mã số thẻ: {so_the}")
+        st.subheader(f"Mã tài sản: {so_the}")
         ts = df[df["Số thẻ"] == so_the]
 
         if not ts.empty:
